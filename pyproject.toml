@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "live-translate"
+dynamic = ["version"]
+description = "Live Armenian speech transcription with English translation and speaker labels, using local models only."
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "numpy>=1.26",
+    "ctranslate2>=4.5",
+    "faster-whisper>=1.1,<2",
+    "transformers>=4.48,<5",
+    "torch>=2.6",
+    "sentencepiece>=0.2",
+    "soxr>=0.5",
+    "webrtcvad-wheels>=2.0.14",
+    "sounddevice>=0.5; sys_platform != 'win32'",
+    "PyAudioWPatch>=0.2.12; sys_platform == 'win32'",
+]
+
+[project.scripts]
+live-translate = "live_translate.cli:main"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8",
+    "ruff>=0.6",
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "live_translate.__version__" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
